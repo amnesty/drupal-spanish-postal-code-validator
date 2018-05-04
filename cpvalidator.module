@@ -33,9 +33,13 @@
 
       				    foreach ($items as $key => $value) {
 
-                      if( !in_array($value, $postal_codes) ) {
-                            $errors[$key] = t( $error,
-                                array( '%item' => $components[ $key ][ "name" ] ) );
+                      if(!preg_match('/[0-9]+/', $value)){
+                          $errors[$key] = t( $numeric_error,
+                            array( '%item' => $components[ $key ][ "name" ] ) );
+                      }
+                      else if( !in_array($value, $postal_codes) ) {
+                          $errors[$key] = t( $error,
+                            array( '%item' => $components[ $key ][ "name" ] ) );
                       }
                       return $errors;
 

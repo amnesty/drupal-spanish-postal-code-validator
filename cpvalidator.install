@@ -1,0 +1,19 @@
+<?php
+
+   /**
+    * Implements hook_install().
+    */
+    function cpvalidator_install() {
+        $ret = array();
+
+        $spec = array(
+            'type' => 'int',
+            'size' => 'tiny',
+            'not null' => FALSE,
+            'description' => 'This field describes how a field is acting when is a postal code)'
+        );
+
+        db_add_field( "webform_component", "cp_info", $spec );
+    }
+
+?>

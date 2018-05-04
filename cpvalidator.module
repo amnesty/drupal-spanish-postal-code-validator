@@ -1,0 +1,48 @@
+<?php
+
+   /**
+    * Implementation of hook_webform_validation_validators().
+    */
+    function cpvalidator_webform_validation_validators() {
+        return
+            array(
+                'validate_spanish_cp' => array(
+                    'name' => 'Validates a spanish postal code',
+                    'description' => t( 'Verifies the existence of this spanish postal code.' ),
+                    'component_types' => array( 'textfield' ) )
+             );
+    }
+
+   /**
+    * Implementation of hook_webform_validation_validate().
+    */
+    function cpvalidator_webform_validation_validate($validator_name, $items, $components, $rule ) {
+
+        // List of CP
+        require_once("postalcodes.php");
+
+        // Errors
+        $error = 'El código postal tiene algún error, por favor revísalo';
+        $numeric_error = 'El código postal debe ser un valor numérico';
+
+        $errors = array();
+
+         if ( $items ) {
+            switch ( $validator_name ) {
+                case 'validate_spanish_cp':
+
+      				    foreach ($items as $key => $value) {
+
+                      if( !in_array($value, $postal_codes) ) {
+                            $errors[$key] = t( $error,
+                                array( '%item' => $components[ $key ][ "name" ] ) );
+                      }
+                      return $errors;
+
+                  }
+                break;
+            }
+        }
+    }
+
+?>
